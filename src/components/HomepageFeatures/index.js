@@ -4,20 +4,20 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
-    title: 'Old World Collapsed',
+    title: '旧世界崩塌',
     huge:'WORLD',
     description: (
       <>
-        Everything desdroied
+        1939-1945人世间最接近地狱的时刻
       </>
     ),
   },
   {
-    title: 'New World Built',
+    title: '新世界建立',
     huge:'WAR',
     description: (
       <>
-        Through the ugest way.
+        希望从无数人类的尸骨中生出
       </>
     ),
   },
@@ -26,7 +26,7 @@ const FeatureList = [
     huge:'II',
     description: (
       <>
-        Will this coming again?
+        还会再来一次吗？
       </>
     ),
   },

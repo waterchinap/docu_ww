@@ -45,7 +45,14 @@ npm run start
 ```
 
 部署：
+- build: 这一步不确定是否必须的。因为我通过cloudflare进行部署。
 ```bash
 cd my-website
 npm run build
 ```
+- 在cloudflare中设置好
+  - 先创建pages
+  - 在domain中新建立一个CNAME,以建立一个二级域名。
+  - 回到pages中，将pages指向二级域名。
+
+- git push：如果无误，每次同步时，都会自动部署。
