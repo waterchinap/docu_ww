@@ -6,6 +6,9 @@ import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import DaysSince from '../components/DaySince';
 import Heading from '@theme/Heading';
 import styles from './index.module.css';
+import Cardtoday from '../components/Cardtoday'
+import Carddays from '../components/Carddays'
+import TodayEvent from '../components/TodayEvent';
 
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
@@ -16,8 +19,14 @@ function HomepageHeader() {
           {siteConfig.title}
         </Heading>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <DaysSince date='1939-09-01'/>
+        <TodayEvent />
+        <div className='card_container'>
+        <Cardtoday />
+        </div>
         <DaysSince date='2022-02-24'/>
+        <div className='card_container'>
+        <Carddays />
+        </div> 
       </div>
     </header>
   );
@@ -27,8 +36,8 @@ export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title={`${siteConfig.title}`}
+      description="War War 2 Everyday and Today">
       <HomepageHeader />
       <main>
         <HomepageFeatures />

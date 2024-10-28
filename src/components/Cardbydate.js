@@ -5,14 +5,7 @@ function Card({ date }) {
     const formattedDate = date.slice(5);
 
     return (
-        <div style={{ 
-            border: '1px solid #ddd', 
-            borderRadius: '4px', 
-            padding: '5px', 
-            margin: '5px', 
-            flex: '0 0 calc(10% - 10px)', 
-            textAlign: 'center' 
-        }}>
+        <div className='mycard'>
             <a href={`docs/bydate/${formattedDate}`}>{formattedDate}</a>
         </div>
     );

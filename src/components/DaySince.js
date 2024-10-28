@@ -8,7 +8,7 @@ function DaysSince({date}) {
 
     return (
         <div>
-            <h3>从{date}至今已过 {daysSince} 天</h3>
+            <h3>俄乌开战从{date}至今已过 {daysSince} 天</h3>
         </div>
     );
 }

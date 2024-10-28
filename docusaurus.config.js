@@ -9,7 +9,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'WW2 DAY',
-  tagline: 'Wolrd War II Everyday',
+  tagline: 'Wolrd War II Everyday & Today',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -87,6 +87,7 @@ const config = {
             label: 'Docs',
           },
           // {to: '/blog', label: 'Blog', position: 'left'},
+          {to: '/timeline', label: '关键节点', position: 'left'},
           {to: '/daynav', label: '按日导航', position: 'left'},
           {to: '/datenav', label: '日期导航', position: 'left'},
           // {

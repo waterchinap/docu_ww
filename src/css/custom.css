@@ -28,3 +28,20 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+.card_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.mycard {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  margin: 5px;
+  flex: 0 0 calc(10% - 10px);
+  text-align: center;
+  white-space: nowrap; /* 允许文本换行 */
+}
