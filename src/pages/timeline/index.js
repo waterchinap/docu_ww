@@ -1,91 +1,83 @@
-import React, { useState } from 'react';
-import dayjs from 'dayjs';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import Layout from '@theme/Layout';
-import Cardtimeline from '../../components/Cardtimeline';
-import eventsData from './timeline.json';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+const fs = require('fs');
+const path = require('path');
+const dayjs = require('dayjs');
 
-// 使用插件
-dayjs.extend(isSameOrBefore);
+function generateDateJson() {
+    const startDate = dayjs('1939-01-01');
+    const endDate = dayjs('1945-12-31');
+    const referenceDate = dayjs('1939-09-01');
+    const dateJson = {};
 
-function generateDateSeries(startDate, endDate, formatString = 'YYYY-MM-DD') {
-    const dateSeries = [];
-    let currentDate = dayjs(startDate);
+    let currentDate = startDate;
+    while (currentDate.isBefore(endDate) || currentDate.isSame(endDate)) {
+        const year = currentDate.year();
+        const month = currentDate.format('MM');
+        const day = currentDate.format('YYYY-MM-DD');
+        const daysTo = currentDate.diff(referenceDate, 'day');
 
-    while (currentDate.isSameOrBefore(endDate)) {
-        dateSeries.push(currentDate.format(formatString));
+        if (!dateJson[year]) {
+            dateJson[year] = {};
+        }
+        if (!dateJson[year][month]) {
+            dateJson[year][month] = [];
+        }
+
+        dateJson[year][month].push({
+            date: day,
+            daysto: daysTo,
+            event: '' // 初始化 event 属性
+        });
         currentDate = currentDate.add(1, 'day');
     }
 
-    return dateSeries;
-}
-
-function groupDatesByYearAndMonth(dateSeries) {
-    const groupedDates = {};
-
-    dateSeries.forEach(date => {
-        const year = date.slice(0, 4);
-        const month = date.slice(5, 7);
-        if (!groupedDates[year]) {
-            groupedDates[year] = {};
-        }
-        if (!groupedDates[year][month]) {
-            groupedDates[year][month] = [];
-        }
-        groupedDates[year][month].push(date);
+    // 对月份进行排序
+    Object.keys(dateJson).forEach(year => {
+        dateJson[year] = Object.keys(dateJson[year]).sort((a, b) => parseInt(a) - parseInt(b)).reduce((acc, month) => {
+            acc[month] = dateJson[year][month];
+            return acc;
+        }, {});
     });
 
-    return groupedDates;
+    return dateJson;
 }
 
-function ByDateNavigationPage() {
-    const startDate = '1939-01-01';
-    const endDate = '1945-12-31';
-    const dateSeries = generateDateSeries(startDate, endDate);
-    const groupedDates = groupDatesByYearAndMonth(dateSeries);
-    const [activeYear, setActiveYear] = useState(Object.keys(groupedDates)[0]);
+function mergeTimelineData(dateJson, timelineData) {
+    timelineData.forEach(event => {
+        const eventDate = dayjs(event.date);
+        const year = eventDate.year();
+        const month = eventDate.format('MM');
+        const day = eventDate.format('YYYY-MM-DD');
 
-    // 将事件数据与日期关联
-    const eventsMap = eventsData.World_War_II_Important_Time_Nodes.reduce((map, event) => {
-        map[event.date] = event.event;
-        return map;
-    }, {});
-
-    return (
-        <Layout>
-            <div style={{ padding: '20px' }}>
-                <h1>关键节点</h1>
-                <p>第二行数字为距开战天数。</p>
-                <Tabs
-                    values={Object.keys(groupedDates).map(year => ({ label: year, value: year }))}
-                    onChange={(year) => setActiveYear(year)}
-                    defaultValue={activeYear}
-                >
-                    {Object.keys(groupedDates).map(year => (
-                        <TabItem key={year} value={year}>
-                            {groupedDates[year] && Object.keys(groupedDates[year]).sort().map(month => (
-                                <div key={month}>
-                                    <h2>{month}</h2>
-                                    <div style={{ 
-                                        display: 'flex', 
-                                        flexWrap: 'wrap', 
-                                        justifyContent: 'flex-start', 
-                                        gap: '10px' 
-                                    }}>
-                                        {groupedDates[year][month].map(date => (
-                                            <Cardtimeline key={date} date={date} event={eventsMap[date]} />
-                                        ))}
-                                    </div>
-                                </div>
-                            ))}
-                        </TabItem>
-                    ))}
-                </Tabs>
-            </div>
-        </Layout>
-    );
+        const dateEntry = dateJson[year][month].find(entry => entry.date === day);
+        if (dateEntry) {
+            dateEntry.event = event.event;
+        }
+    });
 }
 
-export default ByDateNavigationPage;
+function saveJson(data, filePath) {
+    const jsonContent = JSON.stringify(data, null, 4);
+    fs.writeFileSync(filePath, jsonContent);
+}
+
+function main() {
+    // 生成没有合并 events.json 的 date.json
+    const dateJson = generateDateJson();
+    const dateFilePath = path.join(__dirname, 'static/date.json');
+    saveJson(dateJson, dateFilePath);
+    console.log('JSON data saved to static/date.json');
+
+    // 读取 timeline.json 文件
+    const timelineFilePath = path.join(__dirname, 'static/events.json');
+    const timelineData = JSON.parse(fs.readFileSync(timelineFilePath, 'utf8')).events;
+
+    // 合并 timeline.json 数据
+    mergeTimelineData(dateJson, timelineData);
+
+    // 保存合并后的数据
+    const outputFilePath = path.join(__dirname, 'static/data.json');
+    saveJson(dateJson, outputFilePath);
+    console.log('JSON data with events saved to static/data.json');
+}
+
+main();

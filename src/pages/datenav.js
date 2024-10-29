@@ -46,12 +46,13 @@ function MonthNavigationPage() {
                 {Object.keys(groupedDates).sort().map(month => (
                     <div key={month}>
                         <h2>{month}</h2>
-                        <div style={{ 
-                            display: 'flex', 
-                            flexWrap: 'wrap', 
-                            justifyContent: 'flex-start', 
-                            gap: '10px' 
-                        }}>
+                        <div style={{
+                    padding: 20, 
+                    display: 'flex', 
+                    flexWrap: 'wrap', 
+                    justifyContent: 'flex-start', 
+                    gap: '5px' 
+                }}>
                             {groupedDates[month].map(date => (
                                 <Cardbydate key={date} date={date} />
                             ))}

@@ -43,5 +43,13 @@
   margin: 5px;
   flex: 0 0 calc(10% - 10px);
   text-align: center;
-  white-space: nowrap; /* 允许文本换行 */
+  white-space: nowrap; 
+}
+
+.nav_container {
+  padding: 20;
+  display: 'flex'; 
+  flex-wrap: 'wrap';
+  justify-content: 'flex-start';
+  gap: '5px' 
 }

@@ -31,10 +31,7 @@ function mergeFiles(filesByDate, outputDirectory) {
     });
 }
 
-function main() {
-    const inputDirectory = path.join(__dirname, 'docs', 'bydate');
-    const outputDirectory = path.join(__dirname, 'docs', 'bydate-merged');
-
+function main(inputDirectory, outputDirectory) {
     // 创建输出目录
     if (!fs.existsSync(outputDirectory)) {
         fs.mkdirSync(outputDirectory, { recursive: true });
@@ -46,4 +43,14 @@ function main() {
     console.log('文件合并完成');
 }
 
-main();
+// 获取命令行参数
+const args = process.argv.slice(2);
+const inputDir = args[0];
+const outDir = args[1];
+
+if (!inputDir || !outDir) {
+    console.error('请提供输入目录和输出目录参数');
+    process.exit(1);
+}
+
+main(inputDir, outDir);
