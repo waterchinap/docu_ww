@@ -5,13 +5,25 @@ import Link from '@docusaurus/Link';
 function Card() {
     // 计算日期差
     const today = dayjs();
-    const date = today.format('YYYY-MM-DD').slice(5)
+    const ruwardate = dayjs('2022-02-24');
+    const currentDate = dayjs();
+    const rudays = currentDate.diff(ruwardate, 'day');
+    const wwday = dayjs('1939-09-01').add(rudays, 'day')
+    const date = wwday.format('YYYY-MM-DD')
+    const mdate = date.slice(5)
     return (
+        <>
+        <div className='card_container'>
+        
         <div className='mycard'>
-            {/* <a href={`docs/bydate/${date}`}>二战中的今日</a> */}
-            <Link to={`docs/bydate/${date}`}>二战中的今日
-            </Link>
+            <Link to={`docs/bydate/${mdate}`}>二战中的今日  </Link>
         </div>
+        <h3>俄乌开战已：{rudays} 日</h3>
+        <div className='mycard'>
+            <Link to={`docs/byday/${date}`}>二战第{rudays}日</Link>
+        </div>
+        </div>
+        </>
     );
 }
 

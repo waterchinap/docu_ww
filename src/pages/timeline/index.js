@@ -1,83 +1,62 @@
-const fs = require('fs');
-const path = require('path');
-const dayjs = require('dayjs');
+import React from 'react';
+import Layout from '@theme/Layout';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import Link from '@docusaurus/Link';
+import Box from '@mui/material/Box';
+import jsonData from '/data.json';
 
-function generateDateJson() {
-    const startDate = dayjs('1939-01-01');
-    const endDate = dayjs('1945-12-31');
-    const referenceDate = dayjs('1939-09-01');
-    const dateJson = {};
+const DateNavigation = () => {
+  // 提取年份和月份
+  const years = Object.keys(jsonData);
+  const months = years.reduce((acc, year) => {
+    acc[year] = Object.keys(jsonData[year]).sort();
+    return acc;
+  }, {});
 
-    let currentDate = startDate;
-    while (currentDate.isBefore(endDate) || currentDate.isSame(endDate)) {
-        const year = currentDate.year();
-        const month = currentDate.format('MM');
-        const day = currentDate.format('YYYY-MM-DD');
-        const daysTo = currentDate.diff(referenceDate, 'day');
+  return (
+    <Layout title="Date Navigation" description="Navigate through dates and events">
+      <div style={{ padding: '20px' }}>
+        <Tabs defaultValue={null} values={years.map((year) => ({ label: year, value: year }))}>
+          {years.map((year) => (
+            <TabItem key={year} value={year}>
+              <Tabs defaultValue={null} values={months[year].map((month) => ({ label: month, value: `${year}-${month}` }))}>
+                {months[year].map((month) => (
+                  <TabItem key={month} value={`${year}-${month}`}>
+                    <div>
+                      <h3>{month}</h3>
+                      <Box display="grid" gridTemplateColumns="repeat(auto-fill, minmax(250px, 1fr))" gap={2}>
+                        {jsonData[year][month].map((dateInfo) => (
+                          <Card key={dateInfo.date} style={{ margin: '4px' }}>
+                            <CardContent>
+                              <Typography variant="h5" component="div">
+                                <Link to={`/docs/byday/${dateInfo.date}`}>{dateInfo.date}</Link>
+                              </Typography>
+                              <Typography color="textSecondary">
+                                距开战: {dateInfo.days_to}
+                              </Typography>
+                              {dateInfo.event && (
+                                <Typography variant="body2" component="p">
+                                  {dateInfo.event}
+                                </Typography>
+                              )}
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </Box>
+                    </div>
+                  </TabItem>
+                ))}
+              </Tabs>
+            </TabItem>
+          ))}
+        </Tabs>
+      </div>
+    </Layout>
+  );
+};
 
-        if (!dateJson[year]) {
-            dateJson[year] = {};
-        }
-        if (!dateJson[year][month]) {
-            dateJson[year][month] = [];
-        }
-
-        dateJson[year][month].push({
-            date: day,
-            daysto: daysTo,
-            event: '' // 初始化 event 属性
-        });
-        currentDate = currentDate.add(1, 'day');
-    }
-
-    // 对月份进行排序
-    Object.keys(dateJson).forEach(year => {
-        dateJson[year] = Object.keys(dateJson[year]).sort((a, b) => parseInt(a) - parseInt(b)).reduce((acc, month) => {
-            acc[month] = dateJson[year][month];
-            return acc;
-        }, {});
-    });
-
-    return dateJson;
-}
-
-function mergeTimelineData(dateJson, timelineData) {
-    timelineData.forEach(event => {
-        const eventDate = dayjs(event.date);
-        const year = eventDate.year();
-        const month = eventDate.format('MM');
-        const day = eventDate.format('YYYY-MM-DD');
-
-        const dateEntry = dateJson[year][month].find(entry => entry.date === day);
-        if (dateEntry) {
-            dateEntry.event = event.event;
-        }
-    });
-}
-
-function saveJson(data, filePath) {
-    const jsonContent = JSON.stringify(data, null, 4);
-    fs.writeFileSync(filePath, jsonContent);
-}
-
-function main() {
-    // 生成没有合并 events.json 的 date.json
-    const dateJson = generateDateJson();
-    const dateFilePath = path.join(__dirname, 'static/date.json');
-    saveJson(dateJson, dateFilePath);
-    console.log('JSON data saved to static/date.json');
-
-    // 读取 timeline.json 文件
-    const timelineFilePath = path.join(__dirname, 'static/events.json');
-    const timelineData = JSON.parse(fs.readFileSync(timelineFilePath, 'utf8')).events;
-
-    // 合并 timeline.json 数据
-    mergeTimelineData(dateJson, timelineData);
-
-    // 保存合并后的数据
-    const outputFilePath = path.join(__dirname, 'static/data.json');
-    saveJson(dateJson, outputFilePath);
-    console.log('JSON data with events saved to static/data.json');
-}
-
-main();
+export default DateNavigation;

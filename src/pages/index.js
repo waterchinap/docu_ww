@@ -3,11 +3,9 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
-import DaysSince from '../components/DaySince';
 import Heading from '@theme/Heading';
 import styles from './index.module.css';
 import Cardtoday from '../components/Cardtoday'
-import Carddays from '../components/Carddays'
 import TodayEvent from '../components/TodayEvent';
 
 function HomepageHeader() {
@@ -23,10 +21,7 @@ function HomepageHeader() {
         <div className='card_container'>
         <Cardtoday />
         </div>
-        <DaysSince date='2022-02-24'/>
-        <div className='card_container'>
-        <Carddays />
-        </div> 
+
       </div>
     </header>
   );

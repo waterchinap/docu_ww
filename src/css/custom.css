@@ -31,8 +31,10 @@
 
 .card_container {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
   gap: 10px;
 }
 
@@ -44,6 +46,7 @@
   flex: 0 0 calc(10% - 10px);
   text-align: center;
   white-space: nowrap; 
+  width: 10em;
 }
 
 .nav_container {

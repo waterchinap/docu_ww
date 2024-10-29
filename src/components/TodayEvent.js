@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import eventsData from '/timeline.json';
+import eventsData from '/events.json';
 
 const TodayEvent = () => {
   const [events, setEvents] = useState([]);
@@ -9,7 +9,7 @@ const TodayEvent = () => {
     const today = dayjs().format('MM-DD');
 
     // 查找与今天日期（月和日）相同的事件
-    const todayEvents = eventsData.World_War_II_Important_Time_Nodes.filter(event => {
+    const todayEvents = eventsData.events.filter(event => {
       const eventDate = dayjs(event.date).format('MM-DD');
       return eventDate === today;
     });
