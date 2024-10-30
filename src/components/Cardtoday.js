@@ -4,7 +4,6 @@ import Link from '@docusaurus/Link';
 
 function Card() {
     // 计算日期差
-    const today = dayjs();
     const ruwardate = dayjs('2022-02-24');
     const currentDate = dayjs();
     const rudays = currentDate.diff(ruwardate, 'day');
@@ -16,7 +15,7 @@ function Card() {
         <div className='card_container'>
         
         <div className='mycard'>
-            <Link to={`docs/bydate/${mdate}`}>二战中的今日  </Link>
+            <Link to={`docs/bydate/${mdate}`}>更多二战中的今日  </Link>
         </div>
         <h3>俄乌开战已：{rudays} 日</h3>
         <div className='mycard'>
