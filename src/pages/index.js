@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import Link from '@docusaurus/Link';
+// import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
@@ -17,11 +17,6 @@ function HomepageHeader() {
           {siteConfig.title}
         </Heading>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <TodayEvent />
-        <div className='card_container'>
-        <Cardtoday />
-        </div>
-
       </div>
     </header>
   );
@@ -35,6 +30,10 @@ export default function Home() {
       description="War War 2 Everyday and Today">
       <HomepageHeader />
       <main>
+        <TodayEvent />
+        <div className='card_container'>
+          <Cardtoday />
+        </div>
         <HomepageFeatures />
       </main>
     </Layout>

@@ -80,15 +80,15 @@ const config = {
           src: 'img/logo.png',
         },
         items: [
-          {to: '/timeline', label: '关键节点', position: 'left'},
-          {to: '/datenav', label: '日期导航', position: 'left'},
+          {to: '/timeline', label: '年月日导航', position: 'left'},
+          {to: '/datenav', label: '按日期导航', position: 'left'},
           {
             type: 'docSidebar',
             sidebarId: 'tutorialSidebar',
             position: 'left',
-            label: '二战档案',
+            label: '二战档案库',
           },
-          // {to: '/blog', label: 'Blog', position: 'left'},
+          {to: '/blog', label: 'Blog', position: 'left'},
           // {to: '/daynav', label: '按日导航', position: 'left'},
           // {
           //   href: 'https://github.com/facebook/docusaurus',

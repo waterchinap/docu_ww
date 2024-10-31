@@ -9,7 +9,7 @@ function Card() {
     const rudays = currentDate.diff(ruwardate, 'day');
     const wwday = dayjs('1939-09-01').add(rudays, 'day')
     const date = wwday.format('YYYY-MM-DD')
-    const mdate = date.slice(5)
+    const mdate = currentDate.format('YYYY-MM-DD').slice(5)
     return (
         <>
         <div className='card_container'>

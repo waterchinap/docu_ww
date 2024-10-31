@@ -10,25 +10,37 @@ import Box from '@mui/material/Box';
 import jsonData from './datenav.json';
 
 const DateNavigation = () => {
+  // 提取年份和月份
+  const months = Object.keys(jsonData).sort();
+  const days = months.reduce((acc, month) => {
+    acc[month] = Object.keys(jsonData[month]).sort();
+    return acc;
+  }, {});
+
+  // 输出 days 对象的内容
+  // console.log('days:', days);
 
   return (
-    <Layout title="日期导航" description="Navigate through dates and events">
+    <Layout title="Date Navigation" description="Navigate through dates and events">
       <div style={{ padding: '20px' }}>
-        <Tabs>
-          {Object.keys(jsonData).sort().map((month) => (
+        <Tabs defaultValue={null} values={months.map((month) => ({ label: month + '月', value: month }))}>
+          {months.map((month) => (
             <TabItem key={month} value={month}>
               <div>
                 <h3>{month}月</h3>
                 <Box display="grid" gridTemplateColumns="repeat(auto-fill, minmax(250px, 1fr))" gap={2}>
-                  {Object.keys(jsonData[month]).sort().map((day) => {
+                  {days[month].map((day) => {
                     const dayData = jsonData[month][day];
+                    // 输出 jsonData[month][day] 的内容
+                    // console.log(`jsonData[${month}][${day}]:`, dayData);
 
                     // 检查 dayData 是否为 null 或 undefined
                     if (dayData === null || dayData === undefined) {
                       return null; // 如果 dayData 为 null 或 undefined，不渲染该卡片
                     }
+
                     return (
-                      <Card key={day.key}>
+                      <Card key={day}>
                         <CardContent>
                           <Typography variant="h5" component="div">
                             <Link to={`/docs/bydate/${dayData.sdate}`}>{dayData.sdate}</Link>
@@ -41,6 +53,7 @@ const DateNavigation = () => {
                             </Typography>
                           ) : (
                             <Typography variant="body2" color="textSecondary">
+                              
                             </Typography>
                           )}
                         </CardContent>
