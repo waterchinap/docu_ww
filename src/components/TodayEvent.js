@@ -21,7 +21,7 @@ const TodayEvent = () => {
   }, []);
 
   return (
-    <div>
+    <div className='mytext'>
       {events.length > 0 ? (
         <div>
           {events.map((event, index) => (

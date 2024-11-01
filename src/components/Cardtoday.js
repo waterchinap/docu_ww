@@ -1,6 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import Link from '@docusaurus/Link';
+import TodayEvent from './TodayEvent'
 
 function Card() {
     // 计算日期差
@@ -13,7 +14,7 @@ function Card() {
     return (
         <>
         <div className='card_container'>
-        
+        <TodayEvent />
         <div className='mycard'>
             <Link to={`docs/bydate/${mdate}`}>更多二战中的今日  </Link>
         </div>

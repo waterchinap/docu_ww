@@ -35,7 +35,7 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
 }
 
 .mycard {
@@ -47,6 +47,12 @@
   text-align: center;
   white-space: nowrap; 
   width: 10em;
+}
+
+.mytext {
+  margin-top: 1em;
+  text-align: center;
+  align-items: center;
 }
 
 .nav_container {

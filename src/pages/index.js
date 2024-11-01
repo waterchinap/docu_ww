@@ -30,10 +30,7 @@ export default function Home() {
       description="War War 2 Everyday and Today">
       <HomepageHeader />
       <main>
-        <TodayEvent />
-        <div className='card_container'>
-          <Cardtoday />
-        </div>
+        <Cardtoday />
         <HomepageFeatures />
       </main>
     </Layout>
